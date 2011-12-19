@@ -42,10 +42,14 @@ module Rubyhorn::RestClient
     end
 
     def multipart_post url, file, args = {}
-      file_name = File.basename file.path
+      if args.has_key? "filename"
+        filename = args["filename"]
+      else
+        filename = File.basename file.path
+      end
       reqparams = args.to_a
-      mime_type = MIME::Types.of(file_name)
-      reqparams << ["BODY", UploadIO.new(file, mime_type, file_name)]
+      mime_type = MIME::Types.of(filename)
+      reqparams << ["BODY", UploadIO.new(file, mime_type, filename)]
       url = config[:uri] + url
       uri = URI.parse(url)
 
