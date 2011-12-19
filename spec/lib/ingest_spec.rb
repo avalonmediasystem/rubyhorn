@@ -6,7 +6,7 @@ describe Rubyhorn::MatterhornClient do
   end
 
   describe "addMediaPackage" do
-    it "should return a MediaPackage object after call to ingest" do
+    it "should return a Workflow object after call to ingest" do
       video = File.new "spec/fixtures/dance_practice.ogx"
       workflow = @client.addMediaPackage(video, {"title" => "hydrant:13", "flavor" => "presenter/source", "workflow" => "fedora-test"})
       workflow.should be_an_instance_of Rubyhorn::Workflow
