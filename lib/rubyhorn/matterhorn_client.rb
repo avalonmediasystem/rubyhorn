@@ -15,7 +15,7 @@ module Rubyhorn
 
     def initialize options = {}
       @config = options
-      login
+      connect
     end
 
   end

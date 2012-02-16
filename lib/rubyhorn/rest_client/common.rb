@@ -7,21 +7,34 @@ module Rubyhorn::RestClient
     attr_reader :http
     attr_reader :cookie
 
-    def login
-	uri = URI.parse(config[:uri] + "welcome.html")
+    def connect
+	uri = URI.parse(config[:uri])
+	@http = Net::HTTP.new uri.host, uri.port
+	@http.set_debug_output $stderr if !config[:debug].nil? and config[:debug].downcase == 'true'	
+	login
+    end
+
+    def login url = "welcome.html"
+	uri = URI.parse(config[:uri] + url)
+        req = Net::HTTP::Head.new uri.request_uri
+	res = execute_request(uri, req)
+	@cookie = res['set-cookie']
+    end
+
+    def execute_request uri, req
 	uri.user = config[:user]
 	uri.password = config[:password]
-	@http = Net::HTTP.new uri.host, uri.port
-        req = Net::HTTP::Head.new uri.request_uri
-        req['X-REQUESTED-AUTH'] = 'Digest'
-	res = @http.request req
-        
-        digest_auth = Net::HTTP::DigestAuth.new
-        auth = digest_auth.auth_header uri, res['www-authenticate'], 'HEAD' 
-        req = Net::HTTP::Head.new uri.request_uri
-        req.add_field 'Authorization', auth
-        res = @http.request req
-	@cookie = res['set-cookie']
+        head = Net::HTTP::Head.new uri.request_uri	
+        head['X-REQUESTED-AUTH'] = 'Digest'
+	res = @http.request head
+	
+	if res.code.to_i != 200
+          digest_auth = Net::HTTP::DigestAuth.new
+          auth = digest_auth.auth_header uri, res['www-authenticate'], req.method 
+          req.add_field 'Authorization', auth
+          res = @http.request req
+        end
+	res
     end
 
     def get url, args = {}
@@ -33,7 +46,7 @@ module Rubyhorn::RestClient
       uri = URI.parse(url)
       request = Net::HTTP::Get.new(uri.request_uri)
       request['Cookie'] = @cookie
-      response = @http.request(request)
+      response = execute_request(uri, request)
       return response.body    
     end
 
@@ -55,7 +68,8 @@ module Rubyhorn::RestClient
 
       req = Net::HTTP::Post::Multipart.new uri.path, reqparams
       req['Cookie'] = @cookie
-      res = @http.request(req)
+#      res = @http.request(req)
+      res = execute_request(uri, req)
       return res.body
     end
   end
