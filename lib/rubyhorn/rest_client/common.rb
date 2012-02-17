@@ -28,13 +28,13 @@ module Rubyhorn::RestClient
         head['X-REQUESTED-AUTH'] = 'Digest'
 	res = @http.request head
 	
-	if res.code.to_i != 200
+#	if res.code.to_i != 200
           digest_auth = Net::HTTP::DigestAuth.new
           auth = digest_auth.auth_header uri, res['www-authenticate'], req.method 
           req.add_field 'Authorization', auth
           res = @http.request req
-        end
-	res
+#        end
+#	res
     end
 
     def get url, args = {}
@@ -68,7 +68,6 @@ module Rubyhorn::RestClient
 
       req = Net::HTTP::Post::Multipart.new uri.path, reqparams
       req['Cookie'] = @cookie
-#      res = @http.request(req)
       res = execute_request(uri, req)
       return res.body
     end
