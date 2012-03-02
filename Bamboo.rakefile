@@ -24,9 +24,9 @@ RSpec::Core::RakeTask.new do |t|
   # Put spec opts in a file named .rspec in root
   #Next line commented out because it wasn't working
   #t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
-  config = {:uri=>"${bamboo.matterhornUrl}",
-          :user=>'${bamboo.matterhornAdmin}',
-          :password=>'${bamboo.matterhornPassword}' }
+  config = {:uri=>"#{ENV['bamboo_matterhornUrl']}",
+          :user=>"#{ENV['bamboo_matterhornAdmin']}",
+          :password=>"#{ENV['bamboo_matterhornPassword']}" }
 
   Rubyhorn.connect(config)
 end
