@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler'
 require 'bundler/gem_tasks'
+require 'rubyhorn'
 
 begin
   Bundler.setup(:default, :development)
