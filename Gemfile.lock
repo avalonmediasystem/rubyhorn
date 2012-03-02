@@ -41,6 +41,9 @@ GEM
     rspec-expectations (2.8.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.8.0)
+    rspec_junit_formatter (0.1.1)
+      builder
+      rspec (~> 2.0)
     shoulda (2.11.3)
     yard (0.7.5)
 
@@ -51,6 +54,7 @@ DEPENDENCIES
   bundler (>= 1.0.14)
   rake
   rspec
+  rspec_junit_formatter
   rubyhorn!
   shoulda
   yard

@@ -34,4 +34,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec")
   s.add_development_dependency("yard")
 #  s.add_development_dependency("jettywrapper")
+
+  s.add_development_dependency("rspec_junit_formatter")
 end
