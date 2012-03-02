@@ -21,7 +21,13 @@ require 'time' #for RspecJunitFormatter
 desc "Run specs"
 RSpec::Core::RakeTask.new do |t|
   # Put spec opts in a file named .rspec in root
-  t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
+  #Next line commented out because it wasn't working
+  #t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
+  config = {:uri=>"${bamboo.matterhornUrl}",
+          :user=>'${bamboo.matterhornAdmin}',
+          :password=>'${bamboo.matterhornPassword}' }
+
+  Rubyhorn.connect(config)
 end
 
 require 'rake/rdoctask'
