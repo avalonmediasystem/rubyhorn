@@ -1,6 +1,11 @@
 require 'rubygems'
 require 'bundler'
+require 'bundler/setup'
 require 'bundler/gem_tasks'
+require 'rake'
+require "felixwrapper"
+
+APP_ROOT= File.expand_path(File.join(File.dirname(__FILE__),"."))
 
 begin
   Bundler.setup(:default, :development)

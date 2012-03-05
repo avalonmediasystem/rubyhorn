@@ -1,0 +1,3 @@
+[submodule "felix"]
+	path = felix
+	url = git://github.com/variations-on-video/hydrant-felix.git
