@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Rubyhorn::MatterhornClient do
   before(:all) do
+    Rubyhorn.init
     @client = Rubyhorn.client
     video = File.new "spec/fixtures/dance_practice.ogx"
     workflow = @client.addMediaPackage(video, {"title" => "hydrant:13", "flavor" => "presenter/source", "workflow" => "hydrant"})

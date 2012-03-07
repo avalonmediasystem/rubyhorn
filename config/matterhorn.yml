@@ -1,0 +1,7 @@
+development:
+  url: http://matterhorn_system_account:CHANGE_ME@127.0.0.1:8080/
+test:
+  url: http://matterhorn_system_account:CHANGE_ME@127.0.0.1:8080/
+production:
+  url: http://matterhorn_system_account:CHANGE_ME@127.0.0.1:8080/
+

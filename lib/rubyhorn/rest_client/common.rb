@@ -8,14 +8,14 @@ module Rubyhorn::RestClient
     attr_reader :cookie
 
     def connect
-	uri = URI.parse(config[:uri])
+	uri = URI.parse(config[:url])
 	@http = Net::HTTP.new uri.host, uri.port
 	@http.set_debug_output $stderr if !config[:debug].nil? and config[:debug].downcase == 'true'	
 	login
     end
 
     def login url = "welcome.html"
-	uri = URI.parse(config[:uri] + url)
+	uri = URI.parse(config[:url] + url)
         req = Net::HTTP::Head.new uri.request_uri
 	res = execute_request(uri, req)
 	@cookie = res['set-cookie']
@@ -39,7 +39,7 @@ module Rubyhorn::RestClient
 
     def get url, args = {}
       query = args.to_a.each { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.join("&")
-      url = config[:uri] + url
+      url = config[:url] + url
       if !query.empty?
         url << "?" << query
       end
@@ -63,7 +63,7 @@ module Rubyhorn::RestClient
       reqparams = args.to_a
       mime_type = MIME::Types.of(filename)
       reqparams << ["BODY", UploadIO.new(file, mime_type, filename)]
-      url = config[:uri] + url
+      url = config[:url] + url
       uri = URI.parse(url)
 
       req = Net::HTTP::Post::Multipart.new uri.path, reqparams
