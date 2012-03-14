@@ -4,6 +4,7 @@ gem 'childprocess'
 gem 'i18n'
 gem 'logger'
 gem 'mediashelf-loggable'
+gem 'activesupport', '~> 3.0.10'
 
 gemspec
 
