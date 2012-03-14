@@ -1,5 +1,10 @@
 source "http://rubygems.org"
 
+gem 'childprocess'
+gem 'i18n'
+gem 'logger'
+gem 'mediashelf-loggable'
+
 gemspec
 
 
