@@ -1,6 +1,6 @@
 #require 'active-model'
 require 'loggable'
-require 'active_support/core_ext/hash
+require 'active_support/core_ext/hash'
 require 'rubyhorn/version'
 
 module Rubyhorn
