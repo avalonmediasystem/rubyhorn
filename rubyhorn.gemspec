@@ -1,6 +1,5 @@
-# Provide a simple gemspec so you can easily use your enginex
-# project in your rails apps through git.
-require File.join(File.dirname(__FILE__), "lib/rubyhorn/version")
+$:.push File.expand_path("../lib", __FILE__)
+require "rubyhorn/version"
 Gem::Specification.new do |s|
   s.name = "rubyhorn"
   s.version = Rubyhorn::VERSION
@@ -16,8 +15,6 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-#  s.add_dependency "fastercsv"
-#  s.add_dependency "rest-client"
 #  s.add_dependency "nokogiri"
   s.add_dependency "mime-types"
   s.add_dependency "activesupport"
@@ -26,14 +23,12 @@ Gem::Specification.new do |s|
   s.add_dependency "net-http-digest_auth"
   s.add_dependency "multipart-post"
   s.add_dependency "om"
-#  s.add_dependency "savon"
 
   s.add_development_dependency("rake")
   s.add_development_dependency("shoulda")
   s.add_development_dependency("bundler", ">= 1.0.14")
   s.add_development_dependency("rspec")
   s.add_development_dependency("yard")
-#  s.add_development_dependency("jettywrapper")
 
   s.add_development_dependency("rspec_junit_formatter")
 end
