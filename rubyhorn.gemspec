@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 #  s.add_dependency "rest-client"
 #  s.add_dependency "nokogiri"
   s.add_dependency "mime-types"
-#  s.add_dependency "activesupport"
+  s.add_dependency "activesupport"
 #  s.add_dependency "activemodel"
   s.add_dependency "json"
   s.add_dependency "net-http-digest_auth"

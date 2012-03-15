@@ -1,5 +1,6 @@
 #require 'active-model'
 require 'loggable'
+require 'active_support/core_ext/hash
 
 module Rubyhorn
   autoload :MatterhornClient, "rubyhorn/matterhorn_client"
