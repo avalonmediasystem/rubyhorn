@@ -1,12 +1,11 @@
 #require 'active-model'
 require 'loggable'
 require 'active_support/core_ext/hash
+require 'rubyhorn/version'
 
 module Rubyhorn
   autoload :MatterhornClient, "rubyhorn/matterhorn_client"
   autoload :Workflow, "rubyhorn/workflow"
-
-  require 'rubyhorn/version'
 
   class << self
     attr_accessor :config, :config_path, :config_options
