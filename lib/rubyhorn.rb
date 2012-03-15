@@ -1,4 +1,5 @@
 #require 'active-model'
+require 'loggable'
 
 module Rubyhorn
   autoload :MatterhornClient, "rubyhorn/matterhorn_client"

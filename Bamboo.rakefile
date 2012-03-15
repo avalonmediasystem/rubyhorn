@@ -1,7 +1,12 @@
 require 'rubygems'
 require 'bundler'
+require 'bundler/setup'
 require 'bundler/gem_tasks'
-require 'rubyhorn'
+require 'rake'
+require 'time'
+require "felixwrapper"
+
+APP_ROOT= File.expand_path(File.join(File.dirname(__FILE__),"."))
 
 begin
   Bundler.setup(:default, :development)
@@ -18,17 +23,10 @@ require 'rspec/core/rake_task'
 desc 'Default: run specs.'
 task :default => :spec
 
-require 'time' #for RspecJunitFormatter
 desc "Run specs"
 RSpec::Core::RakeTask.new do |t|
   # Put spec opts in a file named .rspec in root
-  #Next line commented out because it wasn't working
-  #t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
-  config = {:uri=>"#{ENV['bamboo_matterhornUrl']}",
-          :user=>"#{ENV['bamboo_matterhornAdmin']}",
-          :password=>"#{ENV['bamboo_matterhornPassword']}" }
-
-  Rubyhorn.connect(config)
+  t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
 end
 
 require 'rake/rdoctask'
