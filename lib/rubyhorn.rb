@@ -1,8 +1,8 @@
 #require 'active-model'
 require 'loggable'
 require 'active_support/core_ext/hash'
-require 'YAML'
-require 'URI'
+require 'yaml'
+require 'uri'
 require 'rubyhorn/version'
 
 module Rubyhorn
