@@ -15,5 +15,8 @@ module Rubyhorn::RestClient
     def instance_xml id
       return Rubyhorn::Workflow.from_xml(get("workflow/instance/#{id}.xml"))
     end
+    def stop id
+      return Rubyhorn::Workflow.from_xml(post("workflow/stop/#{id}"))
+    end
   end
 end

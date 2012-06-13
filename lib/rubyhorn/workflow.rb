@@ -5,7 +5,9 @@ module Rubyhorn
     include OM::XML::Document
 
     set_terminology do |t|
-      t.root(:path=>"workflow", :xmlns=>"http://workflow.opencastproject.org", :namespace_prefix=>"ns2")
+      t.root(:path=>"workflow", :xmlns=>'', "xmlns:ns2"=>"http://workflow.opencastproject.org", :namespace_prefix=>"ns2")
+      t.id(:path => {:attribute=>"id"}, :namespace_prefix=>nil)
+      t.state(:path => {:attribute=>"state"}, :namespace_prefix=>nil)
       t.template(:namespace_prefix=>nil)
       t.title(:namespace_prefix=>nil)
       t.description(:namespace_prefix=>nil)
@@ -13,6 +15,7 @@ module Rubyhorn
         t.title(:namespace_prefix=>nil)
         t.media(:namespace_prefix=>nil) {
           t.track(:namespace_prefix=>nil) {
+            t.type(:path => {:attribute => "type"}, :namespace_prefix=>nil)
             t.url(:namespace_prefix=>nil)
             t.duration(:namespace_prefix=>nil)
           }

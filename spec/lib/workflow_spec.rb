@@ -6,7 +6,7 @@ describe Rubyhorn::MatterhornClient do
     @client = Rubyhorn.client
     video = File.new "spec/fixtures/dance_practice.ogx"
     workflow = @client.addMediaPackage(video, {"title" => "hydrant:13", "flavor" => "presenter/source", "workflow" => "hydrant"})
-    @id = workflow.find_by_terms(:workflow)[0]["id"]
+    @id = workflow.id[0]
   end
 
   after(:all) do
@@ -17,9 +17,22 @@ describe Rubyhorn::MatterhornClient do
     it "should return a Workflow object for the given id" do
       workflow = @client.instance_xml @id
       workflow.should be_an_instance_of Rubyhorn::Workflow
-      workflow.term_values(:template)[0].should eql "hydrant"
-      workflow.term_values(:mediapackage, :title)[0].should eql "hydrant:13"
-      workflow.find_by_terms(:mediapackage, :media, :track)[0]["type"].should eql "presenter/source"
+      workflow = workflow.workflow
+      workflow.template[0].should eql "hydrant"
+      workflow.mediapackage.title[0].should eql "hydrant:13"
+      workflow.mediapackage.media.track.type[0].should eql "presenter/source"
     end
   end
+
+#  describe "stop" do
+#    it "should return a Workflow object of the stopped workflow instance for the given id" do
+#      workflow = @client.stop @id
+#      puts workflow.to_xml
+##      workflow = workflow.workflow
+#      workflow.id.should eql @id
+#      puts workflow.state
+#      workflow.state.should eql "STOPPED"
+#      workflow.mediapackage.title[0].should eql "hydrant:13"
+#    end
+#  end
 end
