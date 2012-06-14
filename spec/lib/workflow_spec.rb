@@ -25,6 +25,13 @@ describe Rubyhorn::MatterhornClient do
     end
   end
 
+  describe "instances_json" do
+    it "should return a JSON doc with a list of instances that have the state RUNNING" do
+      json = @client.instances_json({"state" => "running"})
+      json["workflows"]["totalCount"].to_i.should > 1
+    end
+  end
+
   describe "stop" do
     it "should return a Workflow object of the stopped workflow instance for the given id" do
       workflow_doc = @client.stop @id
