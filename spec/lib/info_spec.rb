@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Rubyhorn::MatterhornClient do
-  before(:each) do
+  before(:all) do
     Rubyhorn.init
     @client = Rubyhorn.client
   end

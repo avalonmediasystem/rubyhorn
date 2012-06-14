@@ -16,9 +16,9 @@ describe Rubyhorn::MatterhornClient do
 
   describe "instance_xml" do
     it "should return a Workflow object for the given id" do
-      workflow = @client.instance_xml @id
-      workflow.should be_an_instance_of Rubyhorn::Workflow
-      workflow = workflow.workflow
+      workflow_doc = @client.instance_xml @id
+      workflow_doc.should be_an_instance_of Rubyhorn::Workflow
+      workflow = workflow_doc.workflow
       workflow.template[0].should eql "hydrant"
       workflow.mediapackage.title[0].should eql "hydrant:13"
       workflow.mediapackage.media.track.type[0].should eql "presenter/source"
@@ -27,8 +27,9 @@ describe Rubyhorn::MatterhornClient do
 
   describe "stop" do
     it "should return a Workflow object of the stopped workflow instance for the given id" do
-      workflow = @client.stop @id
-      workflow = workflow.workflow
+      workflow_doc = @client.stop @id
+      workflow_doc.should be_an_instance_of Rubyhorn::Workflow
+      workflow = workflow_doc.workflow
       workflow.id[0].should eql @id
       workflow.state[0].should eql "STOPPED"
       workflow.mediapackage.title[0].should eql "hydrant:13"
