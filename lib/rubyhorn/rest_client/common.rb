@@ -39,20 +39,23 @@ module Rubyhorn::RestClient
     end
 
     def get url, args = {}
-      query = args.to_a.each { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.join("&")
       url = config[:url] + url
-      if !query.empty?
-        url << "?" << query
-      end
       uri = URI.parse(url)
       request = Net::HTTP::Get.new(uri.request_uri)
+      request.form_data = args
       request['Cookie'] = @cookie
       response = execute_request(uri, request)
       return response.body    
     end
 
-    def post uri, args = {}
-      #TODO implement me!
+    def post url, args = {}
+      url = config[:url] + url
+      uri = URI.parse(url)
+      request = Net::HTTP::Post.new(uri.request_uri)
+      request.form_data = args
+      request['Cookie'] = @cookie
+      response = execute_request(uri, request)
+      return response.body    
     end
 
     def multipart_post url, file, args = {}

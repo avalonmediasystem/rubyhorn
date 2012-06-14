@@ -7,6 +7,7 @@ describe Rubyhorn::MatterhornClient do
     video = File.new "spec/fixtures/dance_practice.ogx"
     workflow = @client.addMediaPackage(video, {"title" => "hydrant:13", "flavor" => "presenter/source", "workflow" => "hydrant"})
     @id = workflow.id[0]
+#    puts "Created media package with workflow #{@id}: #{workflow.to_xml}"
   end
 
   after(:all) do
@@ -24,15 +25,13 @@ describe Rubyhorn::MatterhornClient do
     end
   end
 
-#  describe "stop" do
-#    it "should return a Workflow object of the stopped workflow instance for the given id" do
-#      workflow = @client.stop @id
-#      puts workflow.to_xml
-##      workflow = workflow.workflow
-#      workflow.id.should eql @id
-#      puts workflow.state
-#      workflow.state.should eql "STOPPED"
-#      workflow.mediapackage.title[0].should eql "hydrant:13"
-#    end
-#  end
+  describe "stop" do
+    it "should return a Workflow object of the stopped workflow instance for the given id" do
+      workflow = @client.stop @id
+      workflow = workflow.workflow
+      workflow.id[0].should eql @id
+      workflow.state[0].should eql "STOPPED"
+      workflow.mediapackage.title[0].should eql "hydrant:13"
+    end
+  end
 end
