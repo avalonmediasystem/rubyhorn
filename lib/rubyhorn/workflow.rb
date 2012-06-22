@@ -30,6 +30,7 @@ module Rubyhorn
       }
       t.operations(:namespace_prefix=>nil) {
         t.operation(:namespace_prefix=>nil) {
+          t.operationState(:path => {:attribute=>"state"}, :namespace_prefix=>nil)
           t.configurations(:namespace_prefix=>nil) {
             t.configuration(:namespace_prefix=>nil)
           }
