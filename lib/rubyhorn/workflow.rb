@@ -26,7 +26,12 @@ module Rubyhorn
             t.url(:namespace_prefix=>nil)
           }
         }
-        t.attachments(:namespace_prefix=>nil)
+        t.attachments(:namespace_prefix=>nil){
+          t.attachment(:namespace_prefix=>nil){
+            t.type(:path => {:attribute => "type"}, :namespace_prefix=>nil)
+            t.url(:namespace_prefix=>nil)
+          }
+        }
       }
       t.operations(:namespace_prefix=>nil) {
         t.operation(:namespace_prefix=>nil) {
@@ -38,6 +43,8 @@ module Rubyhorn
       }
       t.configurations(:namespace_prefix=>nil)
       t.errors(:namespace_prefix=>nil)
+      
+      t.searchpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/feed+preview"]/url', :namespace_prefix=>"ns2")
     end
   end
 end
