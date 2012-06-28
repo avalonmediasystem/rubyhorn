@@ -44,7 +44,9 @@ module Rubyhorn
       t.configurations(:namespace_prefix=>nil)
       t.errors(:namespace_prefix=>nil)
       
-      t.searchpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/feed+preview"]/url', :namespace_prefix=>"ns2")
+      t.feedpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/feed+preview"]/url', :namespace_prefix=>"ns2")
+      t.searchpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/search+preview"]/url', :namespace_prefix=>"ns2")
+      t.playerpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/player+preview"]/url', :namespace_prefix=>"ns2")
     end
   end
 end
