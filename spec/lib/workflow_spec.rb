@@ -27,6 +27,9 @@ describe Rubyhorn::MatterhornClient do
 
   describe "instances_json" do
     it "should return a JSON doc with a list of instances that have the state RUNNING" do
+      video = File.new "spec/fixtures/dance_practice.ogx"
+      workflow = @client.addMediaPackage(video, {"title" => "hydrant:13", "flavor" => "presenter/source", "workflow" => "hydrant"})
+      sleep 5
       json = @client.instances_json({"state" => "running"})
       json["workflows"]["totalCount"].to_i.should > 1
     end
