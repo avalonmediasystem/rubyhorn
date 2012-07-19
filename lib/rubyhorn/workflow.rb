@@ -12,6 +12,7 @@ module Rubyhorn
       t.title(:namespace_prefix=>nil)
       t.description(:namespace_prefix=>nil)
       t.mediapackage(:namespace_prefix=>nil) {
+        t.id(:path => {:attribute=>"id"}, :namespace_prefix=>nil)
         t.title(:namespace_prefix=>nil)
         t.media(:namespace_prefix=>nil) {
           t.track(:namespace_prefix=>nil) {
