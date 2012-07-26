@@ -17,9 +17,12 @@ module Rubyhorn
         t.media(:namespace_prefix=>nil) {
           t.track(:namespace_prefix=>nil) {
             t.type(:path => {:attribute => "type"}, :namespace_prefix=>nil)
-						t.mimetype(:path => {:attribute=>"mimetype"}, :namespace_prefix=>nil)
+	    t.mimetype(:namespace_prefix=>nil)
             t.url(:namespace_prefix=>nil)
             t.duration(:namespace_prefix=>nil)
+            t.tags(:namespace_prefix=>nil){
+              t.tag(:namespace_prefix=>nil)
+            }
           }
         }
         t.metadata(:namespace_prefix=>nil) {
@@ -49,6 +52,10 @@ module Rubyhorn
       t.feedpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/feed+preview"]/url', :namespace_prefix=>"ns2")
       t.searchpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/search+preview"]/url', :namespace_prefix=>"ns2")
       t.playerpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/player+preview"]/url', :namespace_prefix=>"ns2")
+      t.streamingmimetype(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and tags/tag = "streaming"]/mimetype', :namespace_prefix=>"ns2")
+      t.streamingurl(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and tags/tag = "streaming"]/url', :namespace_prefix=>"ns2")
+      t.httpmimetype(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/mimetype', :namespace_prefix=>"ns2")
+      t.httpurl(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/url', :namespace_prefix=>"ns2")
     end
   end
 end
