@@ -17,6 +17,7 @@ module Rubyhorn
         t.media(:namespace_prefix=>nil) {
           t.track(:namespace_prefix=>nil) {
             t.type(:path => {:attribute => "type"}, :namespace_prefix=>nil)
+						t.mimetype(:path => {:attribute=>"mimetype"}, :namespace_prefix=>nil)
             t.url(:namespace_prefix=>nil)
             t.duration(:namespace_prefix=>nil)
           }
