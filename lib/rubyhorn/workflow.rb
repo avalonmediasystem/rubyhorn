@@ -5,57 +5,57 @@ module Rubyhorn
     include OM::XML::Document
 
     set_terminology do |t|
-      t.root(:path=>"workflow", :xmlns=>'', "xmlns:ns2"=>"http://workflow.opencastproject.org", :namespace_prefix=>"ns2")
-      t.id(:path => {:attribute=>"id"}, :namespace_prefix=>nil)
-      t.state(:path => {:attribute=>"state"}, :namespace_prefix=>nil)
-      t.template(:namespace_prefix=>nil)
-      t.title(:namespace_prefix=>nil)
-      t.description(:namespace_prefix=>nil)
-      t.mediapackage(:namespace_prefix=>nil) {
-        t.id(:path => {:attribute=>"id"}, :namespace_prefix=>nil)
-        t.title(:namespace_prefix=>nil)
-        t.media(:namespace_prefix=>nil) {
-          t.track(:namespace_prefix=>nil) {
-            t.type(:path => {:attribute => "type"}, :namespace_prefix=>nil)
-	    t.mimetype(:namespace_prefix=>nil)
-            t.url(:namespace_prefix=>nil)
-            t.duration(:namespace_prefix=>nil)
-            t.tags(:namespace_prefix=>nil){
-              t.tag(:namespace_prefix=>nil)
+      t.root(:path=>"workflow", :xmlns=>"http://workflow.opencastproject.org", "xmlns:ns3"=>"http://mediapackage.opencastproject.org")
+      t.id(:path => {:attribute=>"id"})
+      t.state(:path => {:attribute=>"state"})
+      t.template
+      t.title
+      t.description
+      t.mediapackage(:namespace_prefix=>"ns3") {
+        t.id(:path => {:attribute=>"id"})
+        t.title(:namespace_prefix=>"ns3")
+        t.media(:namespace_prefix=>"ns3") {
+          t.track(:namespace_prefix=>"ns3") {
+            t.type(:path => {:attribute => "type"})
+	    t.mimetype(:namespace_prefix=>"ns3")
+            t.url(:namespace_prefix=>"ns3")
+            t.duration(:namespace_prefix=>"ns3")
+            t.tags(:namespace_prefix=>"ns3"){
+              t.tag(:namespace_prefix=>"ns3")
             }
           }
         }
-        t.metadata(:namespace_prefix=>nil) {
-          t.catalog(:namespace_prefix=>nil) {
-            t.mimetype(:namespace_prefix=>nil)
-            t.url(:namespace_prefix=>nil)
+        t.metadata(:namespace_prefix=>"ns3") {
+          t.catalog(:namespace_prefix=>"ns3") {
+            t.mimetype(:namespace_prefix=>"ns3")
+            t.url(:namespace_prefix=>"ns3")
           }
         }
-        t.attachments(:namespace_prefix=>nil){
-          t.attachment(:namespace_prefix=>nil){
-            t.type(:path => {:attribute => "type"}, :namespace_prefix=>nil)
-            t.url(:namespace_prefix=>nil)
-          }
-        }
-      }
-      t.operations(:namespace_prefix=>nil) {
-        t.operation(:namespace_prefix=>nil) {
-          t.operationState(:path => {:attribute=>"state"}, :namespace_prefix=>nil)
-          t.configurations(:namespace_prefix=>nil) {
-            t.configuration(:namespace_prefix=>nil)
+        t.attachments(:namespace_prefix=>"ns3"){
+          t.attachment(:namespace_prefix=>"ns3"){
+            t.type(:path => {:attribute => "type"})
+            t.url(:namespace_prefix=>"ns3")
           }
         }
       }
-      t.configurations(:namespace_prefix=>nil)
-      t.errors(:namespace_prefix=>nil)
+      t.operations {
+        t.operation {
+          t.operationState(:path => {:attribute=>"state"})
+          t.configurations {
+            t.configuration
+          }
+        }
+      }
+      t.configurations
+      t.errors
       
-      t.feedpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/feed+preview"]/url', :namespace_prefix=>"ns2")
-      t.searchpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/search+preview"]/url', :namespace_prefix=>"ns2")
-      t.playerpreview(:path=>'workflow/mediapackage/attachments/attachment[@type="presenter/player+preview"]/url', :namespace_prefix=>"ns2")
-      t.streamingmimetype(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and tags/tag = "streaming"]/mimetype', :namespace_prefix=>"ns2")
-      t.streamingurl(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and tags/tag = "streaming"]/url', :namespace_prefix=>"ns2")
-      t.httpmimetype(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/mimetype', :namespace_prefix=>"ns2")
-      t.httpurl(:path=>'workflow/mediapackage/media/track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/url', :namespace_prefix=>"ns2")
+      t.feedpreview(:path=>'workflow/ns3:mediapackage/ns3:attachments/ns3:attachment[@type="presenter/feed+preview"]/ns3:url')
+      t.searchpreview(:path=>'workflow/ns3:mediapackage/ns3:attachments/ns3:attachment[@type="presenter/search+preview"]/ns3:url')
+      t.playerpreview(:path=>'workflow/ns3:mediapackage/ns3:attachments/ns3:attachment[@type="presenter/player+preview"]/ns3:url')
+      t.streamingmimetype(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and tags/tag = "streaming"]/ns3:mimetype')
+      t.streamingurl(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and ns3:tags/ns3:tag = "streaming"]/ns3:url')
+      t.httpmimetype(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:mimetype')
+      t.httpurl(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:url')
     end
   end
 end
