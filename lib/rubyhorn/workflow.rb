@@ -54,6 +54,7 @@ module Rubyhorn
       t.playerpreview(:path=>'workflow/ns3:mediapackage/ns3:attachments/ns3:attachment[@type="presenter/player+preview"]/ns3:url')
       t.streamingmimetype(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and tags/tag = "streaming"]/ns3:mimetype')
       t.streamingurl(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and ns3:tags/ns3:tag = "streaming"]/ns3:url')
+      t.streamingresolution(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and ns3:tags/ns3:tag = "streaming"]/ns3:video/ns3:resolution')
       t.httpmimetype(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:mimetype')
       t.httpurl(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:url')
     end
