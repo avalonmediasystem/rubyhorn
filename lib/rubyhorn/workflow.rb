@@ -25,6 +25,16 @@ module Rubyhorn
             }
           }
         }
+
+	t.streaming_tracks(ref: [:mediapackage, :media, :track], 
+			attributes: {type: "presenter/delivery"})
+	t.source_tracks(ref: [:mediapackage, :media, :track],
+			attributes: {type: "presenter/source"})
+	t.thumbnail_track(ref: [:mediapackage, :media, :track],
+			  attributes: {type: "presenter/search+preview"})
+	t.poster_track(ref: [:mediapackage, :media, :track],
+		       attributes: {type: "presenter/player+preview"})
+
         t.metadata(:namespace_prefix=>"ns3") {
           t.catalog(:namespace_prefix=>"ns3") {
             t.mimetype(:namespace_prefix=>"ns3")
@@ -57,6 +67,18 @@ module Rubyhorn
       t.streamingresolution(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and ns3:tags/ns3:tag = "streaming"]/ns3:video/ns3:resolution')
       t.httpmimetype(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:mimetype')
       t.httpurl(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:url')
+    end
+
+    # This XPath is meant to extract only the tracks which have a streaming
+    # tag and are actually meant for delivery. It will then return a list of
+    # track IDs that need to be processed.
+    def self.streaming_derivatives 
+      xpath = "#{terminology.xpath_for(:streaming_tracks)} and ns3:tags/tag = 'streaming']/@id"
+      # DEBUG
+      # See what the xPath query looks like
+      puts "XPath query -> #{xpath}"  
+      # END DEBUG
+      ng_xml.xpath(xpath, ng_xml.root.namespace)    
     end
   end
 end
