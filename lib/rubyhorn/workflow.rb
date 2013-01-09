@@ -27,15 +27,6 @@ module Rubyhorn
           }
         }
 
-	t.streaming_tracks(ref: [:mediapackage, :media, :track], 
-			attributes: {type: "presenter/delivery"})
-	t.source_tracks(ref: [:mediapackage, :media, :track],
-			attributes: {type: "presenter/source"})
-	t.thumbnail_images(ref: [:mediapackage, :attachments, :attachment],
-			  attributes: {type: "presenter/search+preview"})
-	t.poster_images(ref: [:mediapackage, :attachments, :attachment],
-		       attributes: {type: "presenter/player+preview"})
-
         t.metadata(:namespace_prefix=>"ns3") {
           t.catalog(:namespace_prefix=>"ns3") {
             t.mimetype(:namespace_prefix=>"ns3")
@@ -57,7 +48,20 @@ module Rubyhorn
           }
         }
       }
-      t.configurations
+      # Breakdown some tracks using refs and proxies so that you can use
+      # them to get to key points of the XML
+         t.tracks(:ref => [:mediapackage, :media, :track])
+
+	t.streaming_tracks(proxy: :tracks, 
+			   path: 'track[@type="presenter/delivery"]') 
+	t.source_tracks(proxy: :tracks, 
+			   path: 'track[@type="presenter/source"]') 
+	t.thumbnail_images(ref: [:mediapackage, :attachments, :attachment],
+			  attributes: {type: "presenter/search+preview"})
+	t.poster_images(ref: [:mediapackage, :attachments, :attachment],
+		       attributes: {type: "presenter/player+preview"})
+
+     t.configurations
       t.errors
       
       t.feed_preview(:path=>'workflow/ns3:mediapackage/ns3:attachments/ns3:attachment[@type="presenter/feed+preview"]/ns3:url')
@@ -74,7 +78,7 @@ module Rubyhorn
     # tag and are actually meant for delivery. It will then return a list of
     # track IDs that need to be processed.
     def streaming_derivatives 
-      xpath = "#{terminology.xpath_for(:streaming_tracks)} and ns3:tags/tag = 'streaming']/@id"
+      xpath = "#{self.class.terminology.xpath_for(:streaming_tracks)} and ns3:tags/tag = 'streaming']/@id"
       # DEBUG
       # See what the xPath query looks like
       puts "XPath query -> #{xpath}"  
@@ -90,7 +94,7 @@ module Rubyhorn
     #
     # should return a list of the files used to generate derivatives
     def nodeset_for(symbols)
-       ng_xml.xpath(terminology.xpath_for(symbols))
+       ng_xml.xpath(self.class.terminology.xpath_for(symbols))
     end
   end
 end
