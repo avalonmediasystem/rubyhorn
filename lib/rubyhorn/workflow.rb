@@ -21,7 +21,7 @@ module Rubyhorn
             t.url(:namespace_prefix=>"ns3")
             t.duration(:namespace_prefix=>"ns3")
 	    t.checksum(namespace_prefix: 'ns3')
-            t.tags(:namespace_prefix=>"ns3"){
+            t.tags(:namespace_prefix=>"ns3") {
               t.tag(:namespace_prefix=>"ns3")
             }
           }
@@ -50,15 +50,15 @@ module Rubyhorn
       }
       # Breakdown some tracks using refs and proxies so that you can use
       # them to get to key points of the XML
-         t.tracks(:ref => [:mediapackage, :media, :track])
+         #t.tracks(:ref => [:mediapackage, :media, :track])
 
-	t.streaming_tracks(proxy: :tracks, 
+	t.streaming_tracks(proxy: [:mediapackage, :media, :track], 
 			   path: 'track[@type="presenter/delivery"]') 
-	t.source_tracks(proxy: :tracks, 
+	t.source_tracks(proxy: [:mediapackage, :media, :track], 
 			   path: 'track[@type="presenter/source"]') 
-	t.thumbnail_images(ref: [:mediapackage, :attachments, :attachment],
+	t.thumbnail_images(proxy: [:mediapackage, :attachments, :attachment],
 			  attributes: {type: "presenter/search+preview"})
-	t.poster_images(ref: [:mediapackage, :attachments, :attachment],
+	t.poster_images(proxy: [:mediapackage, :attachments, :attachment],
 		       attributes: {type: "presenter/player+preview"})
 
      t.configurations
