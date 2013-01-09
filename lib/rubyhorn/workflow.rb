@@ -20,6 +20,7 @@ module Rubyhorn
 	    t.mimetype(:namespace_prefix=>"ns3")
             t.url(:namespace_prefix=>"ns3")
             t.duration(:namespace_prefix=>"ns3")
+	    t.checksum(namespace_prefix: 'ns3')
             t.tags(:namespace_prefix=>"ns3"){
               t.tag(:namespace_prefix=>"ns3")
             }
@@ -30,9 +31,9 @@ module Rubyhorn
 			attributes: {type: "presenter/delivery"})
 	t.source_tracks(ref: [:mediapackage, :media, :track],
 			attributes: {type: "presenter/source"})
-	t.thumbnail_track(ref: [:mediapackage, :media, :track],
+	t.thumbnail_images(ref: [:mediapackage, :attachments, :attachment],
 			  attributes: {type: "presenter/search+preview"})
-	t.poster_track(ref: [:mediapackage, :media, :track],
+	t.poster_images(ref: [:mediapackage, :attachments, :attachment],
 		       attributes: {type: "presenter/player+preview"})
 
         t.metadata(:namespace_prefix=>"ns3") {
@@ -79,6 +80,17 @@ module Rubyhorn
       puts "XPath query -> #{xpath}"  
       # END DEBUG
       ng_xml.xpath(xpath, ng_xml.root.namespace)    
+    end
+
+    # Given a list of symbols from the terminology it will return the
+    # nodeset
+    # 
+    # For example
+    # workflow.nodeset_for(:source_tracks)
+    #
+    # should return a list of the files used to generate derivatives
+    def nodeset_for(symbols)
+       ng_xml.xpath(terminology.xpath_for(symbols))
     end
   end
 end
