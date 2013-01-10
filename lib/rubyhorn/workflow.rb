@@ -16,14 +16,27 @@ module Rubyhorn
         t.title(:namespace_prefix=>"ns3")
         t.media(:namespace_prefix=>"ns3") {
           t.track(:namespace_prefix=>"ns3") {
-	    t.track_id(path: {attribute: "id"})
+	        t.track_id(path: {attribute: "id"})
             t.type(:path => {:attribute => "type"})
-	    t.mimetype(:namespace_prefix=>"ns3")
+	        t.mimetype(:namespace_prefix=>"ns3")
             t.url(:namespace_prefix=>"ns3")
             t.duration(:namespace_prefix=>"ns3")
-	    t.checksum(namespace_prefix: 'ns3')
+	        t.checksum(namespace_prefix: 'ns3')
             t.tags(:namespace_prefix=>"ns3") {
               t.tag(:namespace_prefix=>"ns3")
+              t.quality(namespace_prefix: 'ns3', 
+                        path: 'tag[starts-with(., "quality")]')
+            }
+            
+            t.audio(namespace_prefix: 'ns3') {
+              t.a_codec(namespace_prefix: 'ns3', path: 'encoder/@type')
+              t.a_bitrate(namespace_prefix: 'ns3', path: 'bitrate')
+            }
+            
+            t.video(namespace_prefix: 'ns3') {
+              t.v_codec(namespace_prefix: 'ns3', path: 'encoder/@type')
+              t.v_bitrate(namespace_prefix: 'ns3', path: 'bitrate')
+              t.resolution(namespace_prefix: 'ns3') 
             }
           }
         }
