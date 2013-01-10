@@ -64,13 +64,12 @@ module Rubyhorn
       }
       # Breakdown some tracks using refs and proxies so that you can use
       # them to get to key points of the XML
-	t.streaming_tracks(proxy: [:mediapackage, :media, :track], 
-			   path: 'track[@type="presenter/delivery" and ./ns3:tags/ns3:tag="streaming"]') 
-	t.source_tracks(proxy: [:mediapackage, :media, :track], 
-			   path: 'track[@type="presenter/source"]') 
-	t.thumbnail_images(proxy: [:mediapackage, :attachments, :attachment],
+	t.streaming_tracks(path: 'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and ns3:tags/ns3:tag="streaming"]')
+	t.source_tracks(ref: [:mediapackage, :media, :track], 
+			  attributes: {type: "presenter/source"}) 
+	t.thumbnail_images(ref: [:mediapackage, :attachments, :attachment],
 			  attributes: {type: "presenter/search+preview"})
-	t.poster_images(proxy: [:mediapackage, :attachments, :attachment],
+	t.poster_images(ref: [:mediapackage, :attachments, :attachment],
 		       attributes: {type: "presenter/player+preview"})
 
      t.configurations
