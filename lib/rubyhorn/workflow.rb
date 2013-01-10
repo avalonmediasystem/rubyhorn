@@ -50,6 +50,7 @@ module Rubyhorn
         t.attachments(:namespace_prefix=>"ns3"){
           t.attachment(:namespace_prefix=>"ns3"){
             t.type(:path => {:attribute => "type"})
+            t.mimetype(:namespace_prefix=>"ns3")
             t.url(:namespace_prefix=>"ns3")
           }
         }
