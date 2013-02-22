@@ -96,5 +96,31 @@ module Rubyhorn
     def nodeset_for(symbols)
        ng_xml.xpath(self.class.terminology.xpath_for(symbols))
     end
+
+    def timings
+      find_by_terms(:operations, :operation).collect { |o| 
+        s = o.xpath('*[local-name()="started"]').text.to_i
+        e = o.xpath('*[local-name()="completed"]').text.to_i
+        t = display_time(e,s)
+        if t =~ /^-/
+          s = e = t = 'N/A' 
+        else
+          s = Time.at(s/1000)
+          e = Time.at(e/1000)
+        end
+        { :id => o['id'], :description => o['description'], :state => o['state'], :started => s, :finished => e, :time => t } 
+      }
+    end
+
+    private
+    def display_time(e, s)
+      d = (e - s) / 1000
+      hours = d / (60 * 60)
+      d -= (hours * 60 * 60)
+      minutes = d / 60
+      seconds = d - (minutes * 60)
+      "%2.2d:%2.2d:%2.2d" % [hours, minutes, seconds]
+    end
+
   end
 end
