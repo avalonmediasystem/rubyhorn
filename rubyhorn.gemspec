@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email = ["cjcolvar@indiana.edu"]
   s.summary = %q{Opencast Matterhorn REST API ruby library }
   s.description = %q{Opencast Matterhorn REST API ruby library : REQUIRES Matterhorn 1.2+}
-  s.homepage = "http://github.com/variations-on-video/rubyhorn"
+  s.homepage = "http://github.com/avalonmediasystem/rubyhorn"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
