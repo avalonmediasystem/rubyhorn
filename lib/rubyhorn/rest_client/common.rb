@@ -9,33 +9,36 @@ module Rubyhorn::RestClient
     attr_reader :cookie
 
     def connect
-	uri = URI.parse(config[:url])
-	@http = Net::HTTP.new uri.host, uri.port
-	@http.set_debug_output $stderr if !config[:debug].nil? and config[:debug].downcase == 'true'	
-	login
+      uri = URI.parse(config[:url])
+      @http = Net::HTTP.new uri.host, uri.port
+      @http.set_debug_output $stderr if !config[:debug].nil? and config[:debug].downcase == 'true'  
+      login
     end
 
     def login url = "welcome.html"
-	uri = URI.parse(config[:url] + url)
-        req = Net::HTTP::Head.new uri.request_uri
-	res = execute_request(uri, req)
-	@cookie = res['set-cookie']
+      uri = URI.parse(config[:url] + url)
+      req = Net::HTTP::Head.new uri.request_uri
+      res = execute_request(uri, req)
+      @cookie = res['set-cookie']
     end
 
     def execute_request uri, req
-	uri.user = config[:user]
-	uri.password = config[:password]
-        head = Net::HTTP::Head.new uri.request_uri	
-        head['X-REQUESTED-AUTH'] = 'Digest'
-	res = @http.request head
-	
-#	if res.code.to_i != 200
-          digest_auth = Net::HTTP::DigestAuth.new
-          auth = digest_auth.auth_header uri, res['www-authenticate'], req.method 
-          req.add_field 'Authorization', auth
-          res = @http.request req
-#        end
-#	res
+      uri.user = config[:user]
+      uri.password = config[:password]
+      head = Net::HTTP::Head.new uri.request_uri  
+      head['X-REQUESTED-AUTH'] = 'Digest'
+      res = @http.request head
+      digest_auth = Net::HTTP::DigestAuth.new
+      auth = digest_auth.auth_header uri, res['www-authenticate'], req.method 
+      req.add_field 'Authorization', auth
+      res = @http.request req
+      
+      if res.code.to_i.between?(500,599)
+        raise Rubyhorn::RestClient::Exceptions::ServerError.new(res.code) if res.code.to_i.between?(500,599)
+      else
+        res
+      end
+
     end
 
     def get url, args = {}
