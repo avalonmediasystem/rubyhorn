@@ -32,9 +32,11 @@ module Rubyhorn::RestClient
       auth = digest_auth.auth_header uri, res['www-authenticate'], req.method 
       req.add_field 'Authorization', auth
       res = @http.request req
-      
-      if res.code.to_i.between?(500,599)
-        raise Rubyhorn::RestClient::Exceptions::ServerError.new(res.code) if res.code.to_i.between?(500,599)
+      code_as_int = res.code.to_i
+      if code_as_int == 404
+        raise Rubyhorn::RestClient::Exceptions::HTTPNotFound.new
+      elsif code_as_int.between?(500,599)
+        raise Rubyhorn::RestClient::Exceptions::ServerError.new(code_as_int)
       else
         res
       end
@@ -64,6 +66,16 @@ module Rubyhorn::RestClient
       request['Cookie'] = @cookie
       response = execute_request(uri, request)
       return response.body    
+    end
+
+    def delete( url, args )
+      url = config[:url] + url
+      uri = URI.parse(url)
+      request = Net::HTTP::Delete.new(uri.request_uri)
+      request.form_data = args
+      request['Cookie'] = @cookie
+      response = execute_request(uri, request)
+      return response.body   
     end
 
     def multipart_post url, file, args = {}

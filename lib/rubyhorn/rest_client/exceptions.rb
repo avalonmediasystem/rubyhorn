@@ -18,5 +18,12 @@ module Rubyhorn::RestClient
         super("You failed to include #{params.join(', ')} in your request.")
       end
     end
+
+    class HTTPNotFound < RubyhornException
+      def initialize
+        super("Not found")
+      end
+    end
+    
   end
 end
