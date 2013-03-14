@@ -3,7 +3,7 @@ require 'rubyhorn/rest_client/info'
 require 'rubyhorn/rest_client/ingest'
 require 'rubyhorn/rest_client/workflow'
 require 'rubyhorn/rest_client/exceptions'
-require 'rubyhorn/rest_client/hls_distribution'
+require 'rubyhorn/rest_client/distribution'
 
 module Rubyhorn
   class MatterhornClient
