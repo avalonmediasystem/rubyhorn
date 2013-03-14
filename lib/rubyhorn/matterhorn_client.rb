@@ -12,7 +12,7 @@ module Rubyhorn
     include Rubyhorn::RestClient::Ingest
     include Rubyhorn::RestClient::Workflow
     include Rubyhorn::RestClient::Exceptions
-    include Rubyhorn::RestClient::HLSDistribution
+    include Rubyhorn::RestClient::Distribution
 
     # repository configuration (see #initialize)
     attr_reader :config
