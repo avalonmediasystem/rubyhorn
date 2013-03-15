@@ -33,8 +33,7 @@ module Rubyhorn::RestClient
     end
 
     def get_media_package(workflow_id)
-      package = Rubyhorn::Workflow.from_xml(get("workflow/instance/#{workflow_id}.xml"))
-      doc = Nokogiri.XML(package.to_xml)
+      doc = Nokogiri.XML(get("workflow/instance/#{workflow_id}.xml"))
       doc.remove_namespaces!
       doc = doc.xpath('//mediapackage')
       first_node = doc.first

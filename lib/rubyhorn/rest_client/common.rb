@@ -44,10 +44,15 @@ module Rubyhorn::RestClient
     end
 
     def get url, args = {}
+      url = config[:url] + url
+
+      get_generic url, args
+    end
+
+    def get_generic url, args = {}
       queryparams = []
       args.each { |key, value| queryparams << "#{key}=#{CGI.escape(value.to_s)}" }
       query = queryparams.join("&")
-      url = config[:url] + url
       if !query.empty?
         url << "?" << query
       end
@@ -55,6 +60,7 @@ module Rubyhorn::RestClient
       request = Net::HTTP::Get.new(uri.request_uri)
       request['Cookie'] = @cookie
       response = execute_request(uri, request)
+
       return response.body    
     end
 
