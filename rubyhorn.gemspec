@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Opencast Matterhorn REST API ruby library }
   s.description = %q{Opencast Matterhorn REST API ruby library : REQUIRES Matterhorn 1.2+}
   s.homepage = "http://github.com/avalonmediasystem/rubyhorn"
+  s.license = 'Apache 2.0'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
