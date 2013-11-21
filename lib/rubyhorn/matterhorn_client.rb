@@ -5,6 +5,7 @@ require 'rubyhorn/rest_client/workflow'
 require 'rubyhorn/rest_client/exceptions'
 require 'rubyhorn/rest_client/distribution'
 require 'rubyhorn/rest_client/services'
+require 'rubyhorn/rest_client/files'
 
 module Rubyhorn
   class MatterhornClient
@@ -15,6 +16,7 @@ module Rubyhorn
     include Rubyhorn::RestClient::Exceptions
     include Rubyhorn::RestClient::Distribution
     include Rubyhorn::RestClient::Services
+    include Rubyhorn::RestClient::Files
 
     # repository configuration (see #initialize)
     attr_reader :config
