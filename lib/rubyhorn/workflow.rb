@@ -5,12 +5,19 @@ module Rubyhorn
     include OM::XML::Document
 
     set_terminology do |t|
-      t.root(:path=>"workflow", :xmlns=>"http://workflow.opencastproject.org", "xmlns:ns3"=>"http://mediapackage.opencastproject.org")
+      t.root(:path=>"workflow", :xmlns=>"http://workflow.opencastproject.org", "xmlns:ns2"=>"http://org.opencastproject.security", "xmlns:ns3"=>"http://mediapackage.opencastproject.org")
       t.id(:path => {:attribute=>"id"})
       t.state(:path => {:attribute=>"state"})
       t.template
       t.title
-      t.description
+      t.description 
+      t.organization(:namespace_prefix=>"ns2") {
+        t.properties(:namespace_prefix=>"ns2") {
+          t.property(:namespace_prefix=>"ns2") {
+            t.key(:path => {:attribute => "key"})
+          }
+        }
+      }
       t.mediapackage(:namespace_prefix=>"ns3") {
         t.id(:path => {:attribute=>"id"})
         t.title(:namespace_prefix=>"ns3")
@@ -84,6 +91,7 @@ module Rubyhorn
       t.streaming_resolution(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and ns3:tags/ns3:tag = "streaming"]/ns3:video/ns3:resolution')
       t.http_mime_type(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:mimetype')
       t.http_url(:path=>'workflow/ns3:mediapackage/ns3:media/ns3:track[@type="presenter/delivery" and not(tags/tag = "streaming") and tags/tag = "engage"]/ns3:url')
+      t.stream_base(:path=>'workflow/ns2:organization/ns2:properties/ns2:property[@key="avalon.stream_base"]')
     end
 
     # Given a list of symbols from the terminology it will return the
