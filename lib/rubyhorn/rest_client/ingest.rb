@@ -5,7 +5,10 @@ module Rubyhorn::RestClient
       raise "Missing required field title" unless params.include? "title"
 
       uri = "ingest/addMediaPackage" + (params["workflow"].nil? ? "" : "/#{params["workflow"]}")
-      return Rubyhorn::Workflow.from_xml multipart_post(uri, file, params)
+      file.define_singleton_method(:original_filename) { 
+        params[:filename] || params['filename'] || File.basename(self.path) 
+      }
+      return Rubyhorn::Workflow.from_xml post(uri, params.merge('BODY'=>file))
     end
 
     # Adds a mediapackage and starts ingesting, using an URL as the resource

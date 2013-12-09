@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
 #  s.add_dependency "activemodel"
   s.add_dependency "json"
   s.add_dependency "net-http-digest_auth"
-  s.add_dependency "multipart-post"
   s.add_dependency "om"
+  s.add_dependency "rest-client"
 
   s.add_development_dependency("rake")
   s.add_development_dependency("shoulda")
