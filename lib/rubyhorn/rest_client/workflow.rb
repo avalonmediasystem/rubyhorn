@@ -41,5 +41,14 @@ module Rubyhorn::RestClient
       doc
     end
 
+    def get_media_package_from_id(media_package_id)
+      doc = Nokogiri.XML(get("workflow/instances.xml", {mp: media_package_id}))
+      doc.remove_namespaces!
+      doc = doc.xpath('//mediapackage')
+      first_node = doc.first
+      first_node['xmlns'] = 'http://mediapackage.opencastproject.org'
+      doc
+    end
+
   end
 end
