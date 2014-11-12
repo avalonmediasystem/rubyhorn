@@ -1,5 +1,24 @@
+require 'nokogiri'
+
 module Rubyhorn::RestClient
   module Ingest
+    def createMediaPackage
+      return Nokogiri::XML(get('ingest/createMediaPackage'))
+    end
+
+    def addDCCatalog(params)
+      return Nokogiri::XML(post('ingest/addDCCatalog', params))
+    end
+
+    def addTrack(params)
+      return Nokogiri::XML(post('ingest/addTrack', params))
+    end
+
+    def ingest(params)
+      uri = "ingest/ingest/#{params.delete("workflow")}"
+      return Rubyhorn::Workflow.from_xml post(uri, params)
+    end
+
     def addMediaPackage(file, params)
       raise "Missing required field flavor" unless params.include? "flavor"
       raise "Missing required field title" unless params.include? "title"
