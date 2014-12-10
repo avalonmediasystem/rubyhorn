@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "net-http-digest_auth"
   s.add_dependency "om"
   s.add_dependency "rest-client"
+  s.add_dependency "mediashelf-loggable"
 
   s.add_development_dependency("rake")
   s.add_development_dependency("shoulda")
