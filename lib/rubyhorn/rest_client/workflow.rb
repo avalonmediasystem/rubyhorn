@@ -24,6 +24,10 @@ module Rubyhorn::RestClient
       return JSON.parse(get("workflow/instances.json", args))
     end
 
+    def instances_xml args
+      return Nokogiri.XML(get("workflow/instances.xml", args))
+    end
+
     def stop id
       return Rubyhorn::Workflow.from_xml(post("workflow/stop", {"id"=>id}))
     end
@@ -42,12 +46,18 @@ module Rubyhorn::RestClient
     end
 
     def get_media_package_from_id(media_package_id)
-      doc = Nokogiri.XML(get("workflow/instances.xml", {mp: media_package_id}))
+      doc = instances_xml({mp: media_package_id})
       doc.remove_namespaces!
       doc = doc.xpath('//mediapackage')
       first_node = doc.first
       first_node['xmlns'] = 'http://mediapackage.opencastproject.org'
       doc
+    end
+
+    def get_stopped_workflow(workflow_id)
+      doc = instances_xml({q: workflow_id, state: 'STOPPED'})
+      doc.remove_namespaces!
+      Rubyhorn::Workflow.from_xml(doc.xpath('//workflow').first)
     end
 
   end

@@ -27,3 +27,4 @@ pkg
 .yardoc
 doc
 
+Gemfile.lock
