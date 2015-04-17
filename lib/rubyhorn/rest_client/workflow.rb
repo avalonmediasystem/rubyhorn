@@ -32,7 +32,7 @@ module Rubyhorn::RestClient
       return Rubyhorn::Workflow.from_xml(post("workflow/stop", {"id"=>id}))
     end
 
-    def delete_instance
+    def delete_instance id
       return Rubyhorn::Workflow.from_xml(delete("workflow/remove", {"id"=>id}))
     end
 
