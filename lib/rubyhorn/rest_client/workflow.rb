@@ -36,6 +36,10 @@ module Rubyhorn::RestClient
       return Rubyhorn::Workflow.from_xml(delete("workflow/remove", {"id"=>id}))
     end
 
+    def update_instance xml
+      post("workflow/update", {"workflow"=>xml})
+    end
+
     def get_media_package(workflow_id)
       doc = Nokogiri.XML(get("workflow/instance/#{workflow_id}.xml"))
       doc.remove_namespaces!
