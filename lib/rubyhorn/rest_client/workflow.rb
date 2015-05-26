@@ -28,6 +28,10 @@ module Rubyhorn::RestClient
       return Nokogiri.XML(get("workflow/instances.xml", args))
     end
 
+    def start args
+      return Rubyhorn::Workflow.from_xml(post("workflow/start", args))
+    end
+
     def stop id
       return Rubyhorn::Workflow.from_xml(post("workflow/stop", {"id"=>id}))
     end
