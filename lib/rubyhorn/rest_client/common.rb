@@ -43,6 +43,7 @@ module Rubyhorn::RestClient
     end
 
     def get url, args = {}
+      url = url.slice(1..-1) if url.start_with? '/'
       queryparams = []
       args.each { |key, value| queryparams << "#{key}=#{CGI.escape(value.to_s)}" }
       query = queryparams.join("&")
@@ -53,10 +54,12 @@ module Rubyhorn::RestClient
     end
 
     def post url, args = {}
+      url = url.slice(1..-1) if url.start_with? '/'
       @client[url].post(args, auth_header(url,'post')) { |*args| parse_response(*args) }
     end
 
     def delete( url, args )
+      url = url.slice(1..-1) if url.start_with? '/'
       @client[url].delete(auth_header(url,'delete')) { |*args| parse_response(*args) }
     end
   end
