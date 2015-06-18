@@ -37,15 +37,15 @@ describe Rubyhorn::MatterhornClient do
 
   describe '#addTrack' do
     let(:mediapackage) {@client.createMediaPackage}
-    let(:url) {"file://" + URI.escape(File.realpath('spec/fixtures/dance_practice.ogx'))}
+    let(:url) {"file://" + URI.escape(File.realpath('spec/fixtures/videoshort.mp4'))}
     it 'should upload the file and add a Track' do
-video = File.new "spec/fixtures/dance_practice.ogx"
+video = File.new "spec/fixtures/videoshort.mp4"
       mp = @client.addTrack({'mediaPackage' => mediapackage.to_xml, 'url' => url, 'flavor' => 'presenter/source'})
       
       expect(mp).to be_an_instance_of Nokogiri::XML::Document
       expect(mp.root.name).to eq 'mediapackage'	
       expect(mp.xpath('//xmlns:track').size).to eq 1
-      expect(mp.xpath('//xmlns:track').first.at('url').text).to match(/\/files\/mediapackage\/.*\/dance_practice.ogx/)
+      expect(mp.xpath('//xmlns:track').first.at('url').text).to match(/\/files\/mediapackage\/.*\/videoshort.mp4/)
     end
   end
 
@@ -59,7 +59,7 @@ video = File.new "spec/fixtures/dance_practice.ogx"
     let(:dc) {Nokogiri::XML('<dublincore xmlns="http://www.opencastproject.org/xsd/1.0/dublincore/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <dcterms:title>avalon:no-pid</dcterms:title>
 </dublincore>')}
-    let(:url) {"file://" + URI.escape(File.realpath('spec/fixtures/dance_practice.ogx'))}
+    let(:url) {"file://" + URI.escape(File.realpath('spec/fixtures/videoshort.mp4'))}
     it 'should return a workflow document' do
       workflow_doc = @client.ingest({"workflow" => "avalon", "mediaPackage" => mediapackage.to_xml})
       workflow_doc.should be_an_instance_of Rubyhorn::Workflow
@@ -87,7 +87,7 @@ video = File.new "spec/fixtures/dance_practice.ogx"
 
   describe "addMediaPackage" do
     it "should return a Workflow object after call to ingest" do
-      video = File.new "spec/fixtures/dance_practice.ogx"
+      video = File.new "spec/fixtures/videoshort.mp4"
       workflow_doc = @client.addMediaPackage(video, {"title" => "hydrant:13", "flavor" => "presenter/source", "workflow" => "avalon"})
       workflow_doc.should be_an_instance_of Rubyhorn::Workflow
       workflow = workflow_doc.workflow
@@ -97,7 +97,7 @@ video = File.new "spec/fixtures/dance_practice.ogx"
       workflow.mediapackage.media.track.type[0].should eql "presenter/source"
     end
     it "should be able to rename file uploaded" do
-      video = File.new "spec/fixtures/dance_practice.ogx"
+      video = File.new "spec/fixtures/videoshort.mp4"
       workflow_doc = @client.addMediaPackage(video, {"title" => "hydrant:13", "flavor" => "presenter/source", "workflow" => "avalon", "filename" => "video.ogx"})
       workflow_doc.should be_an_instance_of Rubyhorn::Workflow
       workflow = workflow_doc.workflow
