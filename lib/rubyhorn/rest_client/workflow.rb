@@ -12,6 +12,14 @@ module Rubyhorn::RestClient
       #TODO write me and parse into OM document or just use Nokogiri?
     end
 
+    def definition_xml id
+      return get("workflow/definition/#{id}.xml")
+    end
+    
+    def definition_json id
+      return JSON.parse(get("workflow/definition/#{id}.json"))
+    end
+
     def instance_json id
       return JSON.parse(get("workflow/instance/#{id}.json"))
     end
