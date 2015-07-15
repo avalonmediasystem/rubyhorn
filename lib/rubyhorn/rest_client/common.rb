@@ -34,7 +34,9 @@ module Rubyhorn::RestClient
 
     def parse_response(resp, req, result)
       code_as_int = resp.code.to_i
-      if code_as_int == 404
+      if code_as_int == 400
+        raise Rubyhorn::RestClient::Exceptions::HTTPBadRequest.new
+      elsif code_as_int == 404
         raise Rubyhorn::RestClient::Exceptions::HTTPNotFound.new
       elsif code_as_int.between?(500,599)
         raise Rubyhorn::RestClient::Exceptions::ServerError.new(code_as_int)

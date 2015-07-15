@@ -24,6 +24,11 @@ module Rubyhorn::RestClient
         super("Not found")
       end
     end
-    
+
+    class HTTPBadRequest < RubyhornException
+      def initialize
+        super("Bad Request")
+      end
+    end    
   end
 end
