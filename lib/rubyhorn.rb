@@ -16,12 +16,14 @@ module Rubyhorn
   @config ||= {}
   @config_options ||= {}
 
-  # Initializes Rubyhorn based on the info in matterhorn.yml
+  # Initializes Rubyhorn based on the info in MATTERHORN_URL or matterhorn.yml
   # 
   # If Rails.env is set, it will use that environment.  Defaults to "development".
   # @param [Hash] options (optional) a list of options for the configuration of rubyhorn
   # @option options [String] :environment The environment within which to run
   # @option options [String] :config_path The full path to the matterhorn.yml config file.
+  # 
+  # If MATTERHORN_URL is set, it will be used for whatever the current environment is. If not:
   # 
   # If :environment is not set, order of preference is 
   # 1. Rails.env
@@ -60,23 +62,25 @@ module Rubyhorn
 
   def self.load_configs
     return if config_loaded?
-    @config_env = environment
     load_config
     @config_loaded = true
   end
 
   def self.load_config
-    @config_path = get_config_path
+    if ENV['MATTERHORN_URL'].present?
+      @config = { environment.to_sym => { 'url' => ENV['MATTERHORN_URL'] } }
+    else
+      @config_path = get_config_path
 
-    logger.info("Loading Rubyhorn.config from #{File.expand_path(config_path)}")
-    @config = YAML.load(File.open(config_path)).symbolize_keys
-    raise "The #{@config_env.to_sym} environment settings were not found in the matterhorn.yml config.  If you already have a matterhorn.yml file defined, make sure it defines settings for the #{@config_env} environment" unless config[@config_env.to_sym]
-    
+      logger.info("Loading Rubyhorn.config from #{File.expand_path(config_path)}")
+      @config = YAML.load(File.open(config_path)).symbolize_keys
+      raise "The #{environment.to_sym} environment settings were not found in the matterhorn.yml config.  If you already have a matterhorn.yml file defined, make sure it defines settings for the #{environment} environment" unless config[environment.to_sym]
+    end
     @config
   end
 
   def self.config_for_environment
-    envconfig = @config[@config_env.to_sym].symbolize_keys
+    envconfig = @config[environment.to_sym].symbolize_keys
     url = envconfig[:url]
     u = URI.parse url
     envconfig[:user] = u.user
@@ -96,19 +100,20 @@ module Rubyhorn
   #  Rubyhorn.init(:environment=>"test")
   #  Rubyhorn.environment => "test"
   def self.environment
-    if config_options.fetch(:environment,nil)
-      return config_options[:environment]
-    elsif defined?(Rails.env) and !Rails.env.nil?
-      return Rails.env.to_s
-    elsif defined?(ENV['environment']) and !(ENV['environment'].nil?)
-      return ENV['environment']
-    elsif defined?(ENV['RAILS_ENV']) and !(ENV['RAILS_ENV'].nil?)
-      logger.warn("You're depending on RAILS_ENV for setting your environment. This is deprecated in Rails3. Please use ENV['environment'] for non-rails environment setting: 'rake foo:bar environment=test'")
-      ENV['environment'] = ENV['RAILS_ENV']
-      return ENV['environment']
-    else
-      ENV['environment'] = 'development' #raise "Can't determine what environment to run in!"
-    end
+    @config_env ||= 
+      if config_options.fetch(:environment,nil)
+        config_options[:environment]
+      elsif defined?(Rails.env) and !Rails.env.nil?
+        Rails.env.to_s
+      elsif defined?(ENV['environment']) and !(ENV['environment'].nil?)
+        ENV['environment']
+      elsif defined?(ENV['RAILS_ENV']) and !(ENV['RAILS_ENV'].nil?)
+        logger.warn("You're depending on RAILS_ENV for setting your environment. This is deprecated in Rails3. Please use ENV['environment'] for non-rails environment setting: 'rake foo:bar environment=test'")
+        ENV['environment'] = ENV['RAILS_ENV']
+        ENV['environment']
+      else
+        ENV['environment'] = 'development' #raise "Can't determine what environment to run in!"
+      end
   end
 
   # Determine the matterhorn config file to use. Order of preference is:
@@ -166,4 +171,3 @@ end
 module Rubyhorn
   class RubyhornConfigurationException < Exception; end # :nodoc:
 end
-
