@@ -71,6 +71,7 @@ module Rubyhorn::RestClient
     end
 
     def get_stopped_workflow(workflow_id)
+      raise ArgumentError, "Must supply valid workflow id" if workflow_id.blank?
       doc = instances_xml({q: workflow_id, state: 'STOPPED'})
       doc.remove_namespaces!
       Rubyhorn::Workflow.from_xml(doc.xpath('//workflow').first)
