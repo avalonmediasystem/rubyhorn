@@ -4,6 +4,7 @@ require 'active_support/core_ext/hash'
 require 'yaml'
 require 'uri'
 require 'rubyhorn/version'
+require 'erb'
 
 module Rubyhorn
   autoload :MatterhornClient, "rubyhorn/matterhorn_client"
@@ -73,7 +74,7 @@ module Rubyhorn
       @config_path = get_config_path
 
       logger.info("Loading Rubyhorn.config from #{File.expand_path(config_path)}")
-      @config = YAML.load(File.open(config_path)).symbolize_keys
+      @config = YAML.load(ERB.new(File.read(config_path)).result).symbolize_keys
       raise "The #{environment.to_sym} environment settings were not found in the matterhorn.yml config.  If you already have a matterhorn.yml file defined, make sure it defines settings for the #{environment} environment" unless config[environment.to_sym]
     end
     @config
